@@ -41,7 +41,6 @@ body {
 }
 .page {
   position: relative;
-  width: 100vm;
   min-height: 100vh;
 }
 .page.active {
