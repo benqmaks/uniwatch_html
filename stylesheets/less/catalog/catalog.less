@@ -1,4 +1,4 @@
-@import "dev-mixins";
+@import "../dev-mixins";
 
 #catalog-page {
 	background: url('../../images/bg/bg-catalog.png');
@@ -144,137 +144,12 @@
 
 		ul.products-list {
 			list-style: none;
-			margin: 0;
 			padding: 0;
 			min-height: 540px;
+			margin: 30px 0;
+
 			.clearfix();
-
-			li.product-item {
-				position: relative;
-				cursor: pointer;
-				float: left;
-				width: 393.333333333px;
-				height: 439.2px;
-				margin-right: 30px;
-				margin-bottom: 35px;
-				background-color: transparent;
-
-				&:nth-child(3n) {
-					margin-right: 0;
-				}
-				&:hover {
-					.product-image {
-						img {
-							.transform(translate(-50%, -50%) scale(2));
-							.transition(40s all ease);
-						}
-					}
-					.product-content {
-						height: 110%;
-						width: 110%;
-						background-color: rgba(72, 174, 159, 0.7);
-
-						.top-content {
-							opacity: 1;
-							.translateY(0);
-						}
-
-						.product-buttons {
-							opacity: 1;
-							.translate(-50%, -50%);
-						}
-					}
-				}
-
-				.product-image {
-					background-color: #fff;
-					position: relative;
-					height: 100%;
-					width: 100%;
-					z-index: 10;
-					overflow: hidden;
-
-					img {
-						position: absolute;
-						border: none;
-						height: 100%;
-						width: auto;
-						margin: 0 auto;
-						left: 50%;
-						top: 50%;
-						.transform(translate(-50%, -50%) scale(1));
-					}
-				}
-
-				.product-content {
-					position: absolute;
-					width: 100%;
-					height: 100%;
-					left: 50%;
-					top: 50%;
-					z-index: 20;
-					overflow: hidden;
-					background-color: rgba(72, 174, 159, 0);
-					.translate(-50%, -50%);
-					.transition(0.3s all ease-in-out);
-
-					.top-content {
-						font-size: 48px;
-						text-align: center;
-						opacity: 0;
-						.transition(0.3s all ease-in-out);
-						.transition-delay(0.1s);
-						.translateY(-100%);
-
-						.product-name {
-							font-family: 'Corbel', sans-serif;
-							color: #3b605a;
-						}
-
-						.product-price {
-							font-family: 'copperplate_gothic_lightRg', sans-serif;
-							color: #fff;
-						}
-					}
-
-					.product-buttons {
-						@border-color: hsl(49, 2%, 47%);
-
-						position: absolute;
-						top: 50%;
-						left: 50%;
-						border-radius: 5px;
-						border: 1px solid @border-color;
-						padding: 10px 15px;
-						opacity: 0;
-						.transition(0.3s all ease-in-out);
-						.translate(-50%, 300px);
-
-						span {
-							display: inline-block;
-							height: 50px;
-							width: 50px;
-							background-position: 0 0;
-							background-repeat: no-repeat;
-							margin-right: 10px;
-							.background-size(cover);
-							&:last-child {
-								margin-right: 0;
-							}
-							&:hover {
-								background-position: -50px 0;
-							}
-							&.view-product {
-								background-image: url('../../images/icons/header_search.png');
-							}
-							&.add-to-cart {
-								background-image: url('../../images/icons/catalog_product_item_cart.png');
-
-							}
-						}
-					}
-				}
-			}
+			@import "product-item";
 		}
 	}
 }
