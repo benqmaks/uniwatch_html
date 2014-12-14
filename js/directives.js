@@ -82,11 +82,35 @@ app.directive('scrollToMain', function() {
 app.directive('initPage', function() {
     return {
         restrict: 'A',
-        link: function(scope, element) {
-            $(function() {
+        link: function() {
+
+            //this function used for improve scroll performance;
+            function disableHover () {
+                var body = $('body'),
+                    timer;
+
+                $(window).on('scroll', function () {
+                    clearTimeout(timer);
+
+                    if(!body.hasClass('disable-hover')) {
+                        body.addClass('disable-hover');
+                    }
+
+                    timer = setTimeout(function(){
+                        body.removeClass('disable-hover');
+                    },500);
+                });
+            }
+
+            function scrollToTop () {
                 setTimeout(function() {
                     TweenLite.to(window, 0, {scrollTo:{y:0}, ease:Power2.easeIn});
                 }, 200);
+            }
+
+            $(function() {
+                scrollToTop();
+                disableHover();
             });
         }
     }

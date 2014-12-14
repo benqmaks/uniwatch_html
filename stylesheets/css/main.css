@@ -42,6 +42,10 @@ body {
   overflow: hidden;
   width: 100%;
 }
+.disable-hover,
+.disable-hover * {
+  pointer-events: none !important;
+}
 .page {
   position: relative;
   min-height: 100vh;
