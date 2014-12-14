@@ -1,52 +1,92 @@
+/*global $:false, jQuery:false */
+
 'use strict';
 
-app.directive('initPage', function() {
+app.directive('scrollToCatalog', function() {
     return {
         restrict: 'A',
-        link: function() {
-            console.log('test');
+        link: function(scope, element, attrs) {
+           var windowObj = $(window);
+
+           var windowHeight = windowObj.height(),
+               height = parseInt(windowHeight, 10);
+
+           function scroll(event) {
+               // prevent default scrolling
+               event.preventDefault();
+
+               var isScrollBottom = scope.scrollDirection(event);
+
+               if (isScrollBottom) {
+                   if (scope.isMainPage && !scope.isAnimationRunning) {
+
+                       scope.isAnimationRunning = true;
+
+                       TweenLite.to(window, 0.5, {
+                           scrollTo: {y:height},
+                           ease    : Power2.easeInOut,
+                           onComplete: function() {
+                               scope.isAnimationRunning = false;
+                               scope.isMainPage = false;
+                           }
+                       });
+                   } else {
+                       return false;
+                   }
+               } else {
+                   return false;
+               }
+           }
+
+           $('body').on('mousewheel', scroll);
         }
     }
 });
 
-app.directive('scrollPage', function() {
+app.directive('scrollToMain', function() {
     return {
         restrict: 'A',
-        link: function($scope, element, attrs) {
-            var count = 0;
-            var step = 5;
-            var activePage = $('.page.active');
+        link: function(scope, element, attrs) {
 
-            element.on('mousewheel', function(e) {
-                if (activePage.length) {
-                    if(e.originalEvent.wheelDelta /120 > 0) {
-                        // up
-                        if (activePage.attr('id') == 'catalog-page') {
-                            // scroll catalog up
-                        } else {
-                            e.preventDefault();
-                            return false
-                        }
-                    } else{
-                        // down
-                        if (activePage.attr('id') == 'home-page') {
-                            count++;
-                            if (count > step) {
-                                $('#home-page').animate({
-                                    top: -$('#home-page').height() + 'px'
-                                }, function() {
-                                    $('#home-page').removeClass('active');
-                                    $('#catalog-page').addClass('active');
-                                });
+            function scroll(event) {
+                // prevent default scrolling
+                event.preventDefault();
+
+
+                var isScrollBottom = scope.scrollDirection(event);
+
+                if (!isScrollBottom) {
+                    if (!scope.isMainPage && !scope.isAnimationRunning) {
+                        scope.isAnimationRunning = true;
+                        TweenLite.to(window, 0.5, {
+                            scrollTo: {y:0},
+                            ease    : Power2.easeInOut,
+                            onComplete: function() {
+                                scope.isAnimationRunning = false;
+                                scope.isMainPage = true;
                             }
-                        } else {
-                            // scroll catalog down
-                        }
+                        });
+                    } else {
+                        return false;
                     }
                 } else {
-                    e.preventDefault();
-                    return false
+                    return false;
                 }
+            }
+
+            $('body').on('mousewheel', scroll);
+        }
+    }
+});
+
+app.directive('initPage', function() {
+    return {
+        restrict: 'A',
+        link: function(scope, element) {
+            $(function() {
+                setTimeout(function() {
+                    TweenLite.to(window, 0, {scrollTo:{y:0}, ease:Power2.easeIn});
+                }, 200);
             });
         }
     }

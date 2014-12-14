@@ -37,7 +37,10 @@
   font-style: normal;
 }
 body {
+  position: relative;
   min-width: 1024px;
+  overflow: hidden;
+  width: 100%;
 }
 .page {
   position: relative;

@@ -7,11 +7,11 @@
     <link rel="stylesheet" href="stylesheets/vendors/bootstrap/css/bootstrap-theme.min.css"/>
     <link rel="stylesheet" href="stylesheets/css/main.css"/>
 </head>
-<body ng-app="app">
+<body ng-app="app" ng-controller="appCtrl" init-page>
     <div class="main-wrap">
 
         <!--HOME PAGE-->
-        <div id="home-page" class="page">
+        <div id="home-page" class="page" scroll-to-catalog>
             <div id="logo">
                 <img class="logo-image" src="images/main_logo.png" alt="Be in time!"/>
             </div>
@@ -23,8 +23,8 @@
 
 
         <!--CATALOG PAGE-->
-        <div id="catalog-page" class="page">
-            <div id="main-menu">
+        <div id="catalog-page" class="page" scroll-to-main>
+            <div id="main-menu" class="stuck">
                 <div class="menu-wrap">
                     <div class="left">
                         <ul class="menu-list">
@@ -41,7 +41,8 @@
                     </div>
                     <div class="center">
                         <div class="menu-logo">
-                            <img src="images/icons/logo_header_default.png" alt=""/>
+                            <img src="images/icons/logo_header_stuck.png/" alt="Uniwatch catalog" ng-if="isMenuStuck"/>
+                            <img src="images/icons/logo_header_default.png" alt="Uniwatch catalog" ng-if="!isMenuStuck"/>
                         </div>
                     </div>
                     <div class="right">
@@ -280,8 +281,8 @@
     <script src="js/vendors/angular.min.js"></script>
     <script src="js/vendors/jquery.mousewheel.min.js"></script>
     <script src="js/vendors/jquery.masonry.min.js"></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/plugins/ScrollToPlugin.min.js"></script>
+    <script src="js/vendors/gsap/TweenMax.min.js"></script>
+    <script src="js/vendors/gsap/plugins/ScrollToPlugin.min.js"></script>
     <script src="js/app.js"></script>
     <script src="js/directives.js"></script>
     <script src="js/services.js"></script>

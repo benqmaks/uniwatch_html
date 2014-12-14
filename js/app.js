@@ -3,8 +3,23 @@
 
 
 var app = angular.module('app', []);
-app.controller('appCtrl', ['$scope', function() {
+app.controller('appCtrl', ['$scope', function($scope) {
+    /**
+     * Used to prevent double animation execution;
+     * true if animation is running
+     */
+    $scope.isAnimationRunning = false;
 
+    $scope.isMainPage = true;
+
+    /**
+     * Detects scroll direction. You just need to pass scroll event;
+     * @param event
+     * @returns {boolean} true - scroll bottom, false - scroll top
+     */
+    $scope.scrollDirection = function(event) {
+        return !(event.originalEvent.wheelDelta >= 0);
+    };
 }]);
 
 app.controller('catalogCtrl', ['$scope', 'catalogService', function($scope, catalogService) {
@@ -20,13 +35,13 @@ app.controller('catalogCtrl', ['$scope', 'catalogService', function($scope, cata
             price: '4500',
             id: 1,
             currency: '$',
-            image: 'images/catalog/perrelet-a1047-2.jpg'
+            image: 'images/catalog/casio-ga-100-1a4er.jpg'
         },{
             name: 'Perrelet P Pierre Lanier',
             price: '4500',
             id: 1,
             currency: '$',
-            image: 'images/catalog/perrelet-a1047-2.jpg'
+            image: 'images/catalog/edox-01113-357rn-nir.jpg'
         },{
             name: 'Perrelet P Pierre Lanier',
             price: '4500',
