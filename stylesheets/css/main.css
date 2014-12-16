@@ -240,7 +240,6 @@ body {
 #catalog-page #products-list-wrap {
   width: 1240px;
   margin: 20px auto;
-  overflow: hidden;
   height: 500px;
 }
 #catalog-page #products-list-wrap ul.products-list {
@@ -261,15 +260,15 @@ body {
 #catalog-page #products-list-wrap ul.products-list li.product-item {
   position: relative;
   float: left;
-  width: 393.333333333px;
-  height: 439.2px;
-  margin-right: 30px;
-  margin-bottom: 35px;
+  width: 372px;
+  height: 549px;
+  margin: 20.66666667px 15px;
   cursor: pointer;
   background-color: transparent;
 }
 #catalog-page #products-list-wrap ul.products-list li.product-item .product-item-inner {
   position: absolute;
+  overflow: hidden;
   top: 50%;
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
