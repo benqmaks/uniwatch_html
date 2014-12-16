@@ -6,39 +6,35 @@ app.directive('scrollToCatalog', function() {
     return {
         restrict: 'A',
         link: function(scope, element, attrs) {
-           var windowObj = $(window);
 
-           var windowHeight = windowObj.height(),
-               height = parseInt(windowHeight, 10);
+            function scroll(event) {
+                // prevent default scrolling
+                event.preventDefault();
 
-           function scroll(event) {
-               // prevent default scrolling
-               event.preventDefault();
+                var isScrollBottom = scope.scrollDirection(event);
 
-               var isScrollBottom = scope.scrollDirection(event);
+                if (isScrollBottom) {
+                    if (scope.isMainPage && !scope.isAnimationRunning) {
 
-               if (isScrollBottom) {
-                   if (scope.isMainPage && !scope.isAnimationRunning) {
+                        scope.isAnimationRunning = true;
 
-                       scope.isAnimationRunning = true;
-
-                       TweenLite.to(window, 0.5, {
-                           scrollTo: {y:height},
-                           ease    : Power2.easeInOut,
-                           onComplete: function() {
+                        TweenLite.to(window, 0.5, {
+                            scrollTo: { y: scope.windowHeight },
+                            ease    : Power2.easeInOut,
+                            onComplete: function() {
                                scope.isAnimationRunning = false;
                                scope.isMainPage = false;
-                           }
-                       });
-                   } else {
+                            }
+                        });
+                    } else {
                        return false;
-                   }
-               } else {
-                   return false;
-               }
-           }
+                    }
+                } else {
+                    return false;
+                }
+            }
 
-           $('body').on('mousewheel', scroll);
+            $('body').on('mousewheel', scroll);
         }
     }
 });
@@ -59,8 +55,8 @@ app.directive('scrollToMain', function() {
                     if (!scope.isMainPage && !scope.isAnimationRunning) {
                         scope.isAnimationRunning = true;
                         TweenLite.to(window, 0.5, {
-                            scrollTo: {y:0},
-                            ease    : Power2.easeInOut,
+                            scrollTo : { y: 0 },
+                            ease     : Power2.easeInOut,
                             onComplete: function() {
                                 scope.isAnimationRunning = false;
                                 scope.isMainPage = true;
@@ -79,13 +75,44 @@ app.directive('scrollToMain', function() {
     }
 });
 
+app.directive('stuckOnTop', function () {
+   return {
+       restrict: 'A',
+       link: function (scope, element) {
+           function scroll(event) {
+               event.preventDefault();
+
+               var isScrollBottom = scope.scrollDirection(event);
+
+               if (isScrollBottom) {
+                   if (!scope.isMainPage && !scope.isAnimationRunning) {
+                       //check if products on top
+                       scope.$apply(function() {
+                           scope.isMenuStuck = true;
+                       });
+                   }
+               } else if(!isScrollBottom) {
+                   if (!scope.isMainPage && !scope.isAnimationRunning) {
+                       // check if products not on top
+                       scope.$apply(function () {
+                           scope.isMenuStuck = false;
+                       });
+                   }
+               }
+           }
+
+           $('body').on('mousewheel', scroll);
+       }
+   }
+});
+
 app.directive('initPage', function() {
     return {
         restrict: 'A',
         link: function() {
 
             //this function used for improve scroll performance;
-            function disableHover () {
+            function disableHoverOnScroll () {
                 var body = $('body'),
                     timer;
 
@@ -102,15 +129,49 @@ app.directive('initPage', function() {
                 });
             }
 
+            // prevent chrome from scroll to previous position
             function scrollToTop () {
                 setTimeout(function() {
-                    TweenLite.to(window, 0, {scrollTo:{y:0}, ease:Power2.easeIn});
+                    // target, duration, options
+                    TweenLite.to(window, 0, {
+                        scrollTo : { y:0 },
+                        ease     : Power2.ease
+                    });
                 }, 200);
+            }
+
+            // init custom scroll plugin on catalog page
+            function initScrollPlugin() {
+                $('#catalog-page').mCustomScrollbar();
             }
 
             $(function() {
                 scrollToTop();
-                disableHover();
+                disableHoverOnScroll();
+                initScrollPlugin();
+            });
+        }
+    }
+});
+
+app.directive('windowResize', function() {
+    return {
+        restrict: 'A',
+        link: function(scope) {
+            var height;
+            var timer = 200,
+                timeout;
+
+            $(window).on('resize', function() {
+                if (timeout) {
+                    clearTimeout(timeout);
+                }
+
+                timeout = setTimeout(function() {
+                    scope.$apply(function() {
+                        scope.windowHeight = $(window).height();
+                    });
+                }, timer);
             });
         }
     }

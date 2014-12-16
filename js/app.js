@@ -1,6 +1,5 @@
 'use strict';
-
-
+/*global $:false, jQuery:false */
 
 var app = angular.module('app', []);
 app.controller('appCtrl', ['$scope', function($scope) {
@@ -11,6 +10,10 @@ app.controller('appCtrl', ['$scope', function($scope) {
     $scope.isAnimationRunning = false;
 
     $scope.isMainPage = true;
+
+    $scope.isMenuStuck = false;
+
+    $scope.windowHeight = $(window).height();
 
     /**
      * Detects scroll direction. You just need to pass scroll event;
